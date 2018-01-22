@@ -79,7 +79,10 @@
             http://activemq.apache.org/persistence.html
         -->
         <persistenceAdapter>
+			<!--
             <kahaDB directory="${activemq.data}/kahadb"/>
+			-->
+			<jdbcPersistenceAdapter  dataSource="#mysql-ds"/> 
         </persistenceAdapter>
 
 
@@ -131,7 +134,16 @@
 			</simpleAuthenticationPlugin>
 		</plugins>
     </broker>
-
+	
+	<!-- 新增加mysql数据源bean-->
+    <bean id="mysql-ds" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">  
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>  
+        <property name="url" value="jdbc:mysql://localhost:3306/test?relaxAutoCommit=true"/>  
+        <property name="username" value="root"/>  
+        <property name="password" value="123456"/>  
+		<property name="maxActive" value="200"/>
+        <property name="poolPreparedStatements" value="true"/>  
+    </bean> 
     <!--
         Enable web consoles, REST and Ajax APIs and demos
         The web consoles requires by default login, you can disable this in the jetty.xml file
